@@ -4,6 +4,7 @@ from setuptools import setup, find_packages
 name = "plone.recipe.precompiler"
 version = '0.5dev'
 
+
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
@@ -30,28 +31,29 @@ Contributors
 )
 
 setup(
-    name = name,
-    version = version,
-    author = "Steve McMahon",
-    author_email = "steve@dcn.org",
-    description = "zc.buildout recipe to precompile python- and po-files.",
-    long_description = long_description,
-    license = "ZPL 2.1",
-    keywords = "zope2 buildout",
-    url='https://svn.plone.org/svn/collective/buildout/plone.recipe.precompiler',
+    name=name,
+    version=version,
+    author="Steve McMahon",
+    author_email="steve@dcn.org",
+    description="zc.buildout recipe to precompile python and po files.",
+    long_description=long_description,
+    license="GPL v 2",
+    keywords="buildout",
+    url='https://github.com/plone/plone.recipe.precompiler',
     classifiers=[
-      "License :: OSI Approved :: Zope Public License",
-      "Framework :: Buildout",
-      "Framework :: Zope2",
-      "Framework :: Zope3",
-      "Programming Language :: Python",
+        'Intended Audience :: Developers',
+        'Intended Audience :: System Administrators',
+        'License :: OSI Approved :: GNU General Public License (GPL)',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Framework :: Buildout',
       ],
-    packages = find_packages('src'),
-    include_package_data = True,
-    package_dir = {'':'src'},
-    namespace_packages = ['plone', 'plone.recipe'],
-    install_requires = ['zc.buildout', 'setuptools', 'zc.recipe.egg'],
-    dependency_links = ['http://download.zope.org/distribution/'],
+    packages=find_packages('src'),
+    include_package_data=True,
+    package_dir={'': 'src'},
+    namespace_packages=['plone', 'plone.recipe'],
+    install_requires=['zc.buildout', 'setuptools', 'zc.recipe.egg'],
+    dependency_links=['http://download.zope.org/distribution/'],
     zip_safe=False,
-    entry_points = {'zc.buildout': ['default = %s:Recipe' % name]},
+    entry_points={'zc.buildout': ['default=%s:Recipe' % name]},
     )
