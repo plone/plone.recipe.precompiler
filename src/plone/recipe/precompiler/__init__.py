@@ -26,17 +26,18 @@ Extensions
 
 DefaultRX = r"/\."
 
-
-import os, re, shutil, re
+import os
+import re
 import compileall
 import logging
 import subprocess
 import zc.buildout
 import zc.recipe.egg
 
+
 def compile_non_skip(dir, skip, rx):
     """Byte-compile all modules except those in skip directories."""
-    
+
     # compile current directory
     compileall.compile_dir(dir, maxlevels=0, quiet=1, rx=rx)
     # get a list of child directories
@@ -54,6 +55,7 @@ def compile_non_skip(dir, skip, rx):
                 name not in skip):
             compile_non_skip(fullname, skip, rx)
 
+
 class Recipe:
 
     def __init__(self, buildout, name, options):
@@ -65,12 +67,12 @@ class Recipe:
         self._do_compile_mo_files = options.get('compile-mo-files', False) and \
                 options['compile-mo-files'].lower() == 'true'
 
-        # XXX:  support for extra-paths, more usual than "dirs" 
+        # XXX:  support for extra-paths, more usual than "dirs"
 
         # BBB 2010-08-12
-        options['scripts'] = '' # suppress script generation.
+        options['scripts'] = ''  # suppress script generation.
 
-        if not options.has_key('dirs'):
+        if not 'dirs' in options:
             options['dirs'] = ''
 
         options.setdefault('skip', DefaultSkipDirs)
@@ -110,7 +112,7 @@ class Recipe:
 
     def _compile_mo_files(self):
         def compile_mo_file(podir, pofile):
-            mofile = os.path.join(podir, pofile[:-3]+'.mo')
+            mofile = os.path.join(podir, pofile[:-3] + '.mo')
             pofile = os.path.join(podir, pofile)
             # check timestamps:
             try:
@@ -141,7 +143,7 @@ class Recipe:
 
     # BBB 2010-08-12
     def compileAll(self):
-        
+
         dirs = self.options['dirs'].split()
         skip = self.options['skip'].split()
         rexp = self.options['rx']
