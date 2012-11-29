@@ -1,0 +1,3 @@
+- merge blacklisting into new code, where sane
+
+- support extra-paths (more commonly used, than dirs)
