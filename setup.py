@@ -16,21 +16,15 @@ Changelog for %s.
 
 %s
 
-TODO
-====
-
-%s
-
 Contributors
 ============
 
 %s
 
 """ % (
-    read('README.txt'),
+    read('README.rtf'),
     name,
     read('docs', 'HISTORY.txt'),
-    read('TODO.txt'),
     read('docs', 'CONTRIBUTORS.txt'),
     )
 )
