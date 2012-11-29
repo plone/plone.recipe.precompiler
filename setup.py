@@ -22,7 +22,7 @@ Contributors
 %s
 
 """ % (
-    read('README.rtf'),
+    read('README.rst'),
     name,
     read('docs', 'HISTORY.txt'),
     read('docs', 'CONTRIBUTORS.txt'),
