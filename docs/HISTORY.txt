@@ -1,5 +1,16 @@
-0.5 (unreleased)
-----------------
+0.5
+---
+
+- Suck up error messages and filter them to hide .po compile errors
+  and .py "return outside function" errors when quiet option is true (default).
+  (smcmahon)
+
+- Make the extra-paths work with the new working set method for finding eggs.
+  (smcmahon)
+
+- Removed BBB code. The new way of finding eggs introduced by chaoflow is much
+  better than my original.
+  (smcmahon)
 
 - removed the functionality to automatically extract products directories from parts with the zope2instance recipe. This resulted in buildouts that always installed ALL parts. If you need the products dir, you must declare it explicitly like so:
   dirs = ${instance:products}
