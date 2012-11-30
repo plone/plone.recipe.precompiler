@@ -1,6 +1,5 @@
 import os
-import compileall
-import logging
+import py_compile
 import subprocess
 import zc.buildout
 import zc.recipe.egg
@@ -16,6 +15,8 @@ class Recipe:
         self.logger = buildout._logger
         self._do_compile_mo_files = options.get('compile-mo-files', False) and \
                 options['compile-mo-files'].lower() == 'true'
+
+        self._quiet = options.get('quiet', 'true').lower() == 'true'
 
         # provide 'extra-paths' alias to 'dirs'
         if not 'dirs' in options:
@@ -42,13 +43,31 @@ class Recipe:
 
     @property
     def pkgdirs(self):
-        import pdb; pdb.set_trace()
         return self.ws.entries + self.options['dirs'].split()
 
     def _compile_eggs(self):
+        self.logger.info('Compiling Python files.')
         for pkgdir in self.pkgdirs:
-            self.logger.debug('Compiling egg: %s.' % pkgdir)
-            compileall.compile_dir(pkgdir, quiet=1)
+            for dir, subdirs, files in os.walk(pkgdir):
+                pyfiles = filter(lambda x: x.endswith('.py'), files)
+                for pyfile in pyfiles:
+                    fn = os.path.join(dir, pyfile)
+                    cfile = fn + 'c'
+                    ftime = os.stat(fn).st_mtime
+                    try:
+                        ctime = os.stat(cfile).st_mtime
+                    except os.error:
+                        ctime = 0
+                    if ctime < ftime:
+                        self.logger.debug("Compiling %s" % fn)
+                        try:
+                            py_compile.compile(fn, None, None, True)
+                        except py_compile.PyCompileError, err:
+                            msg = err.msg
+                            if ("'return' outside function" in msg) and self._quiet:
+                                self.logger.debug(msg)
+                            else:
+                                self.logger.error(msg)
 
     def _compile_mo_files(self):
         def compile_mo_file(podir, pofile):
@@ -60,23 +79,18 @@ class Recipe:
             except OSError:
                 do_compile = True
             if do_compile:
-                self.logger.debug('Start compiling po-file: %s.' % pofile)
-                return subprocess.Popen(['msgfmt', '-o', mofile, pofile])
-            else:
-                self.logger.debug('Mo-file already up-to-date: %s.' % mofile)
+                self.logger.debug('Compiling po-file: %s' % pofile)
+                po = subprocess.Popen(['msgfmt', '-o', mofile, pofile], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                stdoutdata, stderrdata = po.communicate()
+                if po.returncode:
+                    if self._quiet:
+                        self.logger.debug("%s\n%s" % (mofile, stdoutdata))
+                    else:
+                        self.logger.error("%s\n%s" % (mofile, stdoutdata))
 
-        children = []
+        self.logger.info('Compiling locale files.')
         for pkgdir in self.pkgdirs:
             for dir, subdirs, files in os.walk(pkgdir):
                 pofiles = filter(lambda x: x.endswith('.po'), files)
                 for pofile in pofiles:
-                    child = compile_mo_file(dir, pofile)
-                    if child is not None:
-                        children.append(child)
-        while children:
-            for i, child in enumerate(children):
-                if child.poll() is not None:
-                    del children[i]
-                else:
-                    self.logger.debug('Waiting for process %s.' % child.pid)
-        self.logger.info('All locale compilations finished.')
+                    compile_mo_file(dir, pofile)
