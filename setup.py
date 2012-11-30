@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 name = "plone.recipe.precompiler"
-version = '0.5dev'
+version = '0.5'
 
 
 def read(*rnames):
