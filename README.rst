@@ -23,7 +23,10 @@ files in place.
 Usage
 =====
 
-for example::
+Please note that usage changed with release 0.5. If you need the old
+options, use 0.4
+
+Common usage::
 
     [buildout]
     parts =
