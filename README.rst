@@ -2,14 +2,23 @@
 plone.recipe.precompiler
 ========================
 
+Buildout recipe to precompiles Python and locale files in an egg list.
+
 Why precompilation?
 ===================
 
-There are .py and .po files. For .py files it is sane and for .po files
-it is essential to be compiled for zope to make use of. In case you run 
-zope under a user that has no write access to the code directories, you 
-have a problem and you'd like the precompiling to happen before zope is
-started.
+Python ordinarily compiles .py files into .pyc or .pyo byte code files
+on demand. Likewise, applications like Plone often compile .po locale
+files into .mo representations when needed.
+
+However, if you are running a Python application as a daemon and wish
+to prevent write access to code directories, you want to do these
+compilations at buildout-time, not run-time. That's where this recipe
+comes in. Passed an egg list, it will pick up all the eggs in the
+buildout working set for the list and find and compile .py and .mo
+files in place.
+
+.mo file compilation is optional, and must be turned on.
 
 Usage
 =====
@@ -29,59 +38,30 @@ for example::
     compile-mo-files = true
 
 
-old, but should still work
---------------------------
-
-ZC Buildout recipe for precompiling Python in product directories
-
-This recipe searches for Python scripts with .py filename extensions and
-compiles them into .pyc bytecode files.
-
-It will compile all the files in specified directories and their descendents. A
-"skip" list of directory names will be bypassed.
-
-Precompiling Python code files to bytecode can prevent the Zope process from
-writing out .pyc files as it operates -- which requires that the daemon process
-be able to write into program directories.
-
 This recipe may return harmless warnings regarding the inability to compile skin
 layer scripts, which typically have "return" outside of a function. While these
 warnings are harmless, you may suppress them by tuning the skip list.
 
 
-Usage (old)
------------
+Options
+-------
 
-When used in a typical Plone install, usage is as simple as::
+    recipe = plone.recipe.precompiler
 
-    [precompile]
-    recipe = plone.recipe.precompiler
-    
-    When used in a different type of install, or with a need for manual tuning::
-    
-    [precompile]
-    recipe = plone.recipe.precompiler
-    dirs = list of dirs
+    eggs = required: list of eggs
+
+    compile-mo-files = true/false; default is false
+
+    extra-paths = optional list of additional paths
+        that would not be found from eggs
         in multiple
         indented lines
-    skip = list of skip
-        directories
-        in multiple
-        indented lines
-    rx = individual file exclusion regular expression
 
+    quiet = true/false; if true, common errors are only shown when buildout's
+        verbose flag is set.
 
-Default usage is equivalent to::
+Notes
+=====
 
-    [instance]
-    ...
-    [precompile]
-    recipe = plone.recipe.precompiler
-    skip =
-        tests
-        skins
-        doc
-        kupu_plone_layer
-        Extensions
-        .svn
-    rx = /\.
+This recipe was created for use in Plone installers, but is hopefully useful in
+many buildout contexts.
