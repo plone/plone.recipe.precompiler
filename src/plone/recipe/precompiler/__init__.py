@@ -90,15 +90,11 @@ class Recipe:
                     fd.write(mo.read())
                     fd.close()
                 except (IOError, OSError, PoSyntaxError):
-                    self.logger.warn('Error while compiling %s' % pofile)
-
-                # po = subprocess.Popen(['msgfmt', '-o', mofile, pofile], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-                # stdoutdata, stderrdata = po.communicate()
-                # if po.returncode:
-                #     if self._quiet:
-                #         self.logger.debug("%s\n%s" % (mofile, stdoutdata))
-                #     else:
-                #         self.logger.error("%s\n%s" % (mofile, stdoutdata))
+                    msg = "Error while compiling language file %s" % mofile
+                    if self._quiet:
+                        self.logger.debug(msg)
+                    else:
+                        self.logger.error(msg)
 
         self.logger.info('Compiling locale files.')
         for pkgdir in self.pkgdirs:
