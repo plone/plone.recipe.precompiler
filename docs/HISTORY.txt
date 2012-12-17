@@ -1,3 +1,10 @@
+0.6 (2012-12-17)
+----------------
+
+- Use python_gettext rather than msgfmt to compile .po files. Removes
+  dependence on gettext.
+  (smcmahon)
+
 0.5
 ---
 
@@ -12,8 +19,11 @@
   better than my original.
   (smcmahon)
 
-- removed the functionality to automatically extract products directories from parts with the zope2instance recipe. This resulted in buildouts that always installed ALL parts. If you need the products dir, you must declare it explicitly like so:
-  dirs = ${instance:products}
+- removed the functionality to automatically extract products directories from
+  parts with the zope2instance recipe. This resulted in buildouts that always
+  installed ALL parts. If you need the products dir, you must declare it explicitly
+  like so:
+      dirs = ${instance:products}
   (do3cc - 2012-07-12)
 
 

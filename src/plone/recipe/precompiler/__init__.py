@@ -4,6 +4,9 @@ import subprocess
 import zc.buildout
 import zc.recipe.egg
 
+from pythongettext.msgfmt import Msgfmt
+from pythongettext.msgfmt import PoSyntaxError
+
 
 class Recipe:
 
@@ -71,7 +74,8 @@ class Recipe:
 
     def _compile_mo_files(self):
         def compile_mo_file(podir, pofile):
-            mofile = os.path.join(podir, pofile[:-3] + '.mo')
+            domain = pofile[:-3]
+            mofile = os.path.join(podir, domain + '.mo')
             pofile = os.path.join(podir, pofile)
             # check timestamps:
             try:
@@ -80,13 +84,21 @@ class Recipe:
                 do_compile = True
             if do_compile:
                 self.logger.debug('Compiling po-file: %s' % pofile)
-                po = subprocess.Popen(['msgfmt', '-o', mofile, pofile], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-                stdoutdata, stderrdata = po.communicate()
-                if po.returncode:
-                    if self._quiet:
-                        self.logger.debug("%s\n%s" % (mofile, stdoutdata))
-                    else:
-                        self.logger.error("%s\n%s" % (mofile, stdoutdata))
+                try:
+                    mo = Msgfmt(pofile, name=domain).getAsFile()
+                    fd = open(mofile, 'wb')
+                    fd.write(mo.read())
+                    fd.close()
+                except (IOError, OSError, PoSyntaxError):
+                    self.logger.warn('Error while compiling %s' % pofile)
+
+                # po = subprocess.Popen(['msgfmt', '-o', mofile, pofile], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                # stdoutdata, stderrdata = po.communicate()
+                # if po.returncode:
+                #     if self._quiet:
+                #         self.logger.debug("%s\n%s" % (mofile, stdoutdata))
+                #     else:
+                #         self.logger.error("%s\n%s" % (mofile, stdoutdata))
 
         self.logger.info('Compiling locale files.')
         for pkgdir in self.pkgdirs:

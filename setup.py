@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 name = "plone.recipe.precompiler"
-version = '0.5'
+version = '0.6'
 
 
 def read(*rnames):
@@ -52,7 +52,10 @@ setup(
     include_package_data=True,
     package_dir={'': 'src'},
     namespace_packages=['plone', 'plone.recipe'],
-    install_requires=['zc.buildout', 'setuptools', 'zc.recipe.egg'],
+    install_requires=[
+        'zc.buildout', 'setuptools', 'zc.recipe.egg',
+        'python_gettext'
+        ],
     dependency_links=['http://download.zope.org/distribution/'],
     zip_safe=False,
     entry_points={'zc.buildout': ['default=%s:Recipe' % name]},
