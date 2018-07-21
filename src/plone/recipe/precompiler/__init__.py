@@ -65,8 +65,8 @@ class Recipe:
                         self.logger.debug("Compiling %s" % fn)
                         try:
                             py_compile.compile(fn, None, None, True)
-                        except py_compile.PyCompileError, err:
-                            msg = err.msg
+                        except py_compile.PyCompileError as err:
+                            msg = err.args[0]
                             if ("'return' outside function" in msg) and self._quiet:
                                 self.logger.debug(msg)
                             else:
@@ -99,6 +99,6 @@ class Recipe:
         self.logger.info('Compiling locale files.')
         for pkgdir in self.pkgdirs:
             for dir, subdirs, files in os.walk(pkgdir):
-                pofiles = filter(lambda x: x.endswith('.po'), files)
+                pofiles = [file for file in files if file.endswith('.po')]
                 for pofile in pofiles:
                     compile_mo_file(dir, pofile)
