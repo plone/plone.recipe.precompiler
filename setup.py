@@ -2,13 +2,14 @@ import os
 from setuptools import setup, find_packages
 
 name = "plone.recipe.precompiler"
-version = '0.7dev'
+version = '0.7.dev0'
 
 
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-long_description = ("""%s
+
+long_description = """%s
 
 Change history
 ==============
@@ -27,7 +28,6 @@ Contributors
     name,
     read('docs', 'HISTORY.txt'),
     read('docs', 'CONTRIBUTORS.txt'),
-    )
 )
 
 setup(
@@ -47,16 +47,18 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Framework :: Buildout',
-      ],
+    ],
     packages=find_packages('src'),
     include_package_data=True,
     package_dir={'': 'src'},
     namespace_packages=['plone', 'plone.recipe'],
     install_requires=[
-        'zc.buildout', 'setuptools', 'zc.recipe.egg',
-        'python_gettext'
-        ],
+        'zc.buildout',
+        'setuptools',
+        'zc.recipe.egg',
+        'python_gettext',
+    ],
     dependency_links=['http://download.zope.org/distribution/'],
     zip_safe=False,
     entry_points={'zc.buildout': ['default=%s:Recipe' % name]},
-    )
+)
