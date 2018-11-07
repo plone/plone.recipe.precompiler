@@ -1,4 +1,6 @@
-0.7 (unreleased)
+0.7 (2018-11-07)
+
+Bug fixes:
 
 - Fix reversion in 0.6, displaying too many .po compile errors.
 
