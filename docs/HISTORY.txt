@@ -11,7 +11,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Rerelease to fix Python 3 issue in 0.7
+  [esteele]
 
 
 0.7 (2018-11-07)
