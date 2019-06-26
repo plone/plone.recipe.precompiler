@@ -49,6 +49,8 @@ warnings are harmless, you may suppress them by tuning the skip list.
 Options
 -------
 
+::
+
     recipe = plone.recipe.precompiler
 
     eggs = required: list of eggs
