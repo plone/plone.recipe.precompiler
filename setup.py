@@ -41,6 +41,7 @@ setup(
     keywords="buildout",
     url='https://github.com/plone/plone.recipe.precompiler',
     classifiers=[
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
         'License :: OSI Approved :: GNU General Public License (GPL)',
