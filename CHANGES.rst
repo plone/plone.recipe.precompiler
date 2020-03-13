@@ -11,7 +11,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Small packaging updates.  [gforcada, jensens, maurits]
 
 
 0.7.1 (2018-11-11)
