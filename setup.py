@@ -5,7 +5,18 @@ version = '0.7.2.dev0'
 
 
 def read(filename):
-    return open(filename).read()
+    with open(filename) as myfile:
+        try:
+            return myfile.read()
+        except UnicodeDecodeError:
+            # Happens on one Jenkins node on Python 3.6,
+            # so maybe it happens for users too.
+            pass
+    # Opening and reading as text failed, so retry opening as bytes.
+    with open(filename, "rb") as myfile:
+        contents = myfile.read()
+        return contents.decode("utf-8")
+
 
 
 long_description = """%s
