@@ -1,12 +1,11 @@
-import os
 from setuptools import setup, find_packages
 
 name = "plone.recipe.precompiler"
 version = '0.7.2.dev0'
 
 
-def read(*rnames):
-    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+def read(filename):
+    return open(filename).read()
 
 
 long_description = """%s
@@ -26,8 +25,8 @@ Contributors
 """ % (
     read('README.rst'),
     name,
-    read('docs', 'HISTORY.txt'),
-    read('docs', 'CONTRIBUTORS.txt'),
+    read('CHANGES.rst'),
+    read('CONTRIBUTORS.rst'),
 )
 
 setup(
