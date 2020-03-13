@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 name = "plone.recipe.precompiler"
-version = '0.7.2.dev0'
+version = "0.7.2.dev0"
 
 
 def read(filename):
@@ -16,7 +16,6 @@ def read(filename):
     with open(filename, "rb") as myfile:
         contents = myfile.read()
         return contents.decode("utf-8")
-
 
 
 long_description = """%s
@@ -34,10 +33,10 @@ Contributors
 %s
 
 """ % (
-    read('README.rst'),
+    read("README.rst"),
     name,
-    read('CHANGES.rst'),
-    read('CONTRIBUTORS.rst'),
+    read("CHANGES.rst"),
+    read("CONTRIBUTORS.rst"),
 )
 
 setup(
@@ -49,30 +48,25 @@ setup(
     long_description=long_description,
     license="GPL v 2",
     keywords="buildout",
-    url='https://github.com/plone/plone.recipe.precompiler',
+    url="https://github.com/plone/plone.recipe.precompiler",
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Intended Audience :: Developers',
-        'Intended Audience :: System Administrators',
-        'License :: OSI Approved :: GNU General Public License (GPL)',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Framework :: Buildout',
+        "Development Status :: 5 - Production/Stable",
+        "Intended Audience :: Developers",
+        "Intended Audience :: System Administrators",
+        "License :: OSI Approved :: GNU General Public License (GPL)",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Framework :: Buildout",
     ],
-    packages=find_packages('src'),
+    packages=find_packages("src"),
     include_package_data=True,
-    package_dir={'': 'src'},
-    namespace_packages=['plone', 'plone.recipe'],
-    install_requires=[
-        'zc.buildout',
-        'setuptools',
-        'zc.recipe.egg',
-        'python_gettext',
-    ],
-    dependency_links=['http://download.zope.org/distribution/'],
+    package_dir={"": "src"},
+    namespace_packages=["plone", "plone.recipe"],
+    install_requires=["zc.buildout", "setuptools", "zc.recipe.egg", "python_gettext",],
+    dependency_links=["http://download.zope.org/distribution/"],
     zip_safe=False,
-    entry_points={'zc.buildout': ['default=%s:Recipe' % name]},
+    entry_points={"zc.buildout": ["default=%s:Recipe" % name]},
 )
