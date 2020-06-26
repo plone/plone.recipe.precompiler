@@ -1,14 +1,6 @@
 0.7.2 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Small packaging updates.  [gforcada, jensens, maurits]
