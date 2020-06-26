@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 name = "plone.recipe.precompiler"
-version = "0.7.2.dev0"
+version = "0.7.2"
 
 
 def read(filename):
